@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/*
+ * Theme tokens: "Clinical Teal, Navy & Amber". The single source of colour and type.
+ * Use the generated utilities (bg-primary, hover:bg-primary-dark, text-secondary,
+ * bg-secondary/10, bg-support, bg-bg, text-text, text-gold-light …) rather than
+ * raw hex values.
+ *
+ * Roles:
+ *   primary        deep clinical teal: dominant brand colour, headings, primary
+ *                  buttons and CTAs. White on primary 6.35:1.
+ *   primary-dark   darker teal: button hover / active states, gradient ends.
+ *                  White on primary-dark 9.42:1.
+ *   primary-light  lighter teal: soft washes, glows, borders
+ *                  (never body text: too low-contrast on off-white)
+ *   secondary      deep navy: supporting / authority colour (accreditation,
+ *                  numbered discs, badges, secondary buttons). White on
+ *                  secondary 15.32:1.
+ *   gold-light     warm amber: CTA / certification accent. It is a mid-tone, so
+ *                  as TEXT or ICON it is only safe on secondary (navy, 7.11:1).
+ *                  It FAILS on teal (2.95:1 on primary, 4.37:1 on primary-dark)
+ *                  and on light backgrounds (2.16:1 on white); use it there only
+ *                  for decorative lines, dots and fills.
+ */
+@theme {
+  --color-primary: #0E6B64;        /* deep clinical teal */
+  --color-primary-dark: #0A4F4A;   /* darker teal: hover / active / gradient end */
+  --color-primary-light: #3D9890;  /* lighter teal: washes, glows, borders */
+  --color-secondary: #12263D;      /* deep navy: supporting / authority */
+  --color-gold-light: #E8A33D;     /* warm amber: CTA / certification accent */
+  --color-bg: #FBFAF7;             /* off-white canvas */
+  --color-text: #1F2A2E;           /* charcoal */
+  --color-support: #F7F3EC;        /* warm off-white wash: card / section backgrounds */
+
+  /* Elevation: soft, diffused, primary-tinted (derived from the colour tokens,
+     so shadows carry the teal tint).
+     Cards rest on shadow-soft, lift to shadow-soft-lg. */
+  --shadow-soft:
+    0 1px 2px 0 color-mix(in oklab, var(--color-primary) 6%, transparent),
+    0 8px 24px -8px color-mix(in oklab, var(--color-primary) 14%, transparent);
+  --shadow-soft-lg:
+    0 2px 4px 0 color-mix(in oklab, var(--color-primary) 5%, transparent),
+    0 24px 48px -16px color-mix(in oklab, var(--color-primary) 22%, transparent);
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
