@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import SectionHeading, { Eyebrow } from '../components/SectionHeading.jsx'
+import Breadcrumb from '../components/Breadcrumb.jsx'
 import DoctorCard from '../components/DoctorCard.jsx'
 import CTASection from '../components/CTASection.jsx'
 import Reveal from '../components/Reveal.jsx'
@@ -26,10 +27,15 @@ const focusRing = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-
  *  - one transparent link sits exactly over the drawn button
  * ========================================================================== */
 const HERO_BG_SRC = '/doctors-hero-v2.jpg'
+// 1x1 transparent GIF used as the below-lg <picture> source, so small screens never fetch the hero JPG.
+const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 
 // Hit-area for the drawn "Explore Our Faculty" button, as % of the image size.
 // Measured from the image: button pixels x 75–488, y 634–718 of 1896 x 830.
 const heroFacultyArea = { left: '4.0%', top: '76.4%', width: '21.8%', height: '10.2%' }
+
+// Breadcrumb overlay position, as % of the image size: clear space above the "Our Faculty" badge.
+const heroBreadcrumbPos = { left: '3.7%', top: '4%' }
 
 // Section 3: how faculty support learning (copy as supplied).
 const supportFeatures = [
@@ -97,28 +103,60 @@ export default function Doctors() {
         content="Meet the faculty who teach Medical Global Academy's Gastroenterology programmes, and how they support your learning."
       />
 
-      {/* 1 ── Hero: ONE full-width image (Home pattern). Heading, intro and button are drawn in it.
-             - Real <h1> + intro are sr-only (SEO / screen readers).
-             - One transparent link sits on top of the drawn "Explore Our Faculty" button.
-             - Small screens: the image keeps a readable minimum width and can be swiped
-               sideways; from lg up it simply fills the width. */}
-      <section aria-label="Our faculty" className="relative overflow-x-auto bg-[#F4FBFA] lg:overflow-visible">
-        <h1 className="sr-only">Learn from Experts. Grow with Confidence.</h1>
-        <p className="sr-only">
-          Good teaching turns knowledge into judgement. Our faculty bring clinical experience into every session,
-          helping you understand not just what to do in gastroenterology, but why.
-        </p>
+      {/* 1 ── Hero (Home pattern). Two presentations of ONE set of content.
+             - Below lg: a real text hero (breadcrumb, badge, h1, intro, button) on the soft teal base.
+             - lg and up: ONE full-width image (heading, intro and button drawn in it) with the
+               breadcrumb overlaid and a transparent link over the drawn "Explore Our Faculty" button.
+             - The single <h1> + intro are shared: visible below lg, `lg:sr-only` from lg up
+               (where the image carries them visually), so there is only ever one h1. */}
+      <section aria-label="Our faculty" className="relative isolate overflow-hidden bg-[#F4FBFA]">
+        {/* Soft teal glows for the text hero only (the image has its own background). */}
+        <div aria-hidden="true" className="pointer-events-none absolute -top-32 -right-32 -z-10 h-80 w-80 rounded-full bg-primary-light/15 blur-3xl lg:hidden" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-40 -left-32 -z-10 h-80 w-80 rounded-full bg-support/80 blur-3xl lg:hidden" />
 
-        <div className="relative mx-auto min-w-[860px] max-w-[1920px] lg:min-w-0">
-          <img
-            src={HERO_BG_SRC}
-            alt="Our Faculty: learn from expert specialists at Medical Global Academy"
-            width={1896}
-            height={830}
-            fetchPriority="high"
-            className="block h-auto w-full select-none"
-            draggable={false}
-          />
+        <div className="mx-auto max-w-3xl px-4 pt-8 pb-16 sm:px-5 md:pt-10 md:pb-20 lg:max-w-none lg:p-0">
+          <Breadcrumb items={[{ label: 'Doctors' }]} className="mb-8 lg:hidden" />
+          <Eyebrow className="lg:hidden">Our Faculty</Eyebrow>
+          <h1 className="mt-5 font-display text-4xl leading-[1.08] font-normal tracking-tight text-text sm:text-5xl md:text-6xl lg:sr-only">
+            Learn from Experts. <strong className="font-semibold text-primary">Grow with Confidence.</strong>
+          </h1>
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-text/70 sm:text-lg lg:sr-only">
+            Good teaching turns knowledge into judgement. Our faculty bring clinical experience into every session,
+            helping you understand not just what to do in gastroenterology, but why.
+          </p>
+          <a
+            href="#faculty"
+            className={`mt-8 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-primary px-7 font-semibold text-white shadow-soft transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-soft-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:w-auto lg:hidden ${focusRing}`}
+          >
+            Explore Our Faculty
+          </a>
+        </div>
+
+        <div className="relative mx-auto hidden max-w-[1920px] lg:block">
+          {/* <picture> + a 1px placeholder source below lg stops phones downloading the large
+              hero JPG they never show. From lg up the browser uses the <img> exactly as before. */}
+          <picture>
+            <source media="(max-width: 1023.98px)" srcSet={BLANK_PIXEL} />
+            <img
+              src={HERO_BG_SRC}
+              alt="Our Faculty: learn from expert specialists at Medical Global Academy"
+              width={1896}
+              height={830}
+              fetchPriority="high"
+              className="block h-auto w-full select-none"
+              draggable={false}
+            />
+          </picture>
+
+          {/* Breadcrumb overlaid on the image's light top-left area, above the drawn "Our Faculty"
+              badge (badge starts ~y 138 of 830). Left edge lines up with the badge (x 70 of 1896).
+              A soft white pill keeps it legible wherever the photo is lighter or busier. */}
+          <div className="absolute" style={heroBreadcrumbPos}>
+            <Breadcrumb
+              items={[{ label: 'Doctors' }]}
+              className="rounded-full bg-white/75 px-3 py-1 shadow-sm shadow-primary/5 ring-1 ring-primary/10 backdrop-blur-sm"
+            />
+          </div>
 
           {/* Transparent hit-area over the button drawn in the image */}
           <a

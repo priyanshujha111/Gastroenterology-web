@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import LegalPage from '../components/LegalPage.jsx'
 
 // TODO: policy jab bhi update ho, ye date badalna. Page ke top par dikhti hai.
 const LAST_UPDATED = 'November 2026'
@@ -10,7 +10,7 @@ const EMAIL = 'support@medicalglobalacademy.com'
  *   { type: 'p',  text }                 paragraph
  *   { type: 'h',  text }                 small sub-heading
  *   { type: 'ul', items: [string | { label, text }] }   bullet list
- * Any occurrence of EMAIL inside a text is turned into a mailto link.
+ * Rendered by components/LegalPage.jsx. Any occurrence of EMAIL inside a text becomes a mailto link.
  * ========================================================================== */
 const sections = [
   {
@@ -257,63 +257,6 @@ const sections = [
   },
 ]
 
-const sectionId = (i) => `section-${i + 1}`
-
-const focusRing = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary'
-
-const emailLinkClass = `rounded font-medium text-primary underline decoration-primary/30 underline-offset-4 transition-colors hover:text-primary-dark hover:decoration-primary ${focusRing}`
-
-/** Turns every occurrence of the support email inside a string into a mailto link. */
-function RichText({ text }) {
-  const parts = text.split(EMAIL)
-  return parts.map((part, i) => (
-    <span key={i}>
-      {part}
-      {i < parts.length - 1 && (
-        <a href={`mailto:${EMAIL}`} className={emailLinkClass}>
-          {EMAIL}
-        </a>
-      )}
-    </span>
-  ))
-}
-
-function Block({ block }) {
-  if (block.type === 'h') {
-    return <h3 className="mt-6 font-display text-lg font-medium text-primary first:mt-0">{block.text}</h3>
-  }
-
-  if (block.type === 'ul') {
-    return (
-      <ul className="mt-4 grid gap-3 first:mt-0">
-        {block.items.map((item, i) => {
-          const isLabelled = typeof item === 'object'
-          return (
-            <li key={i} className="flex gap-3 text-base leading-relaxed text-text/80">
-              <span aria-hidden="true" className="mt-[0.6rem] h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
-              <span>
-                {isLabelled ? (
-                  <>
-                    <strong className="font-semibold text-text">{item.label}:</strong> {item.text}
-                  </>
-                ) : (
-                  item
-                )}
-              </span>
-            </li>
-          )
-        })}
-      </ul>
-    )
-  }
-
-  return (
-    <p className="mt-4 text-base leading-relaxed text-text/80 first:mt-0">
-      <RichText text={block.text} />
-    </p>
-  )
-}
-
 export default function PrivacyPolicy() {
   return (
     <>
@@ -322,94 +265,16 @@ export default function PrivacyPolicy() {
         name="description"
         content="How Medical Global Academy collects, uses, stores and shares your information across its websites and mobile app."
       />
-
-      {/* Header band */}
-      <section className="relative isolate overflow-hidden bg-linear-to-b from-support to-transparent">
-        <div aria-hidden="true" className="pointer-events-none absolute -top-32 -right-32 -z-10 h-96 w-96 rounded-full bg-primary-light/15 blur-3xl" />
-        <div className="mx-auto max-w-7xl px-4 pt-16 pb-10 sm:px-5 md:pt-24 md:pb-14 lg:px-6">
-          <nav aria-label="Breadcrumb" className="text-sm text-text/60">
-            <Link to="/" className={`rounded transition-colors hover:text-primary ${focusRing}`}>
-              Home
-            </Link>
-            <span aria-hidden="true" className="mx-2">/</span>
-            <span aria-current="page" className="text-text/80">Privacy Policy</span>
-          </nav>
-
-          <p className="mt-6 text-xs font-semibold tracking-[0.2em] text-secondary uppercase">Legal</p>
-          <h1 className="mt-3 font-display text-4xl leading-tight font-medium text-primary md:text-5xl">
-            Privacy Policy
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-text/70 md:text-lg">
-            How Medical Global Academy collects, uses, stores and shares your information.
-          </p>
-          <p className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-sm font-medium text-text/70 shadow-soft ring-1 ring-primary/10">
-            Last updated: <time>{LAST_UPDATED}</time>
-          </p>
-        </div>
-      </section>
-
-      {/* Body: contents list + policy text */}
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 pt-6 pb-24 sm:px-5 md:pb-32 lg:grid-cols-[18rem_minmax(0,1fr)] lg:gap-14 lg:px-6">
-        <aside className="lg:sticky lg:top-28 lg:self-start">
-          <nav
-            aria-label="Privacy policy contents"
-            className="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-primary/10"
-          >
-            <p className="font-display text-base font-medium text-primary">Contents</p>
-            <ol className="mt-4 grid gap-1 lg:max-h-[calc(100vh-14rem)] lg:overflow-y-auto">
-              {sections.map((s, i) => (
-                <li key={s.title}>
-                  <a
-                    href={`#${sectionId(i)}`}
-                    className={`block rounded-lg px-3 py-1.5 text-sm text-text/70 transition-colors hover:bg-support hover:text-primary ${focusRing}`}
-                  >
-                    {s.title}
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </nav>
-        </aside>
-
-        <article className="min-w-0">
-          <div className="grid gap-6">
-            {sections.map((s, i) => (
-              <section
-                key={s.title}
-                id={sectionId(i)}
-                aria-labelledby={`${sectionId(i)}-title`}
-                className="scroll-mt-28 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-primary/10 sm:p-8"
-              >
-                <h2
-                  id={`${sectionId(i)}-title`}
-                  className="font-display text-2xl leading-snug font-medium text-primary"
-                >
-                  {s.title}
-                </h2>
-                <div className="mt-4">
-                  {s.blocks.map((b, j) => (
-                    <Block key={j} block={b} />
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-
-          {/* Contact card */}
-          <div className="mt-10 rounded-3xl bg-linear-to-b from-support to-support/40 p-6 ring-1 ring-primary/10 sm:p-8">
-            <p className="font-display text-xl font-medium text-primary">Questions about this policy?</p>
-            <p className="mt-2 text-base leading-relaxed text-text/75">
-              Write to us and we will get back to you.
-            </p>
-            <a
-              href={`mailto:${EMAIL}`}
-              className={`mt-5 inline-flex h-12 items-center justify-center rounded-xl bg-primary px-6 font-semibold text-white shadow-soft transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-soft-lg ${focusRing}`}
-            >
-              {EMAIL}
-            </a>
-          </div>
-        </article>
-      </div>
+      <LegalPage
+        title="Privacy Policy"
+        intro="How Medical Global Academy collects, uses, stores and shares your information."
+        lastUpdated={LAST_UPDATED}
+        sections={sections}
+        contentsLabel="Privacy policy contents"
+        contactTitle="Questions about this policy?"
+        email={EMAIL}
+        links={[{ text: EMAIL, href: `mailto:${EMAIL}` }]}
+      />
     </>
   )
 }

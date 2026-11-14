@@ -105,7 +105,7 @@ export default function FaqSection() {
  * Open rows get a support/40 wash and a navy left accent bar; question text is primary
  * on support/40 (≈5.9:1), answer text/80 (7.36:1).
  */
-function FaqItem({ id, index, question, answer, open, onToggle }) {
+export function FaqItem({ id, index, question, answer, open, onToggle }) {
   return (
     <div
       className={`relative overflow-hidden rounded-2xl ring-1 transition duration-300 ease-out motion-reduce:transition-none ${

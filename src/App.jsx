@@ -7,6 +7,10 @@ import CourseDetail from './pages/CourseDetail.jsx'
 import Doctors from './pages/Doctors.jsx'
 import DoctorProfile from './pages/DoctorProfile.jsx'
 import PrivacyPolicy from './pages/PrivacyPolicy.jsx'
+import Support from './pages/Support.jsx'
+import Terms from './pages/Terms.jsx'
+import RefundPolicy from './pages/RefundPolicy.jsx'
+import Sitemap from './pages/Sitemap.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 export default function App() {
@@ -20,6 +24,10 @@ export default function App() {
         <Route path="doctors" element={<Doctors />} />
         <Route path="doctors/:id" element={<DoctorProfile />} />
         <Route path="privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="support" element={<Support />} />
+        <Route path="terms" element={<Terms />} />
+        <Route path="refund-policy" element={<RefundPolicy />} />
+        <Route path="sitemap" element={<Sitemap />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

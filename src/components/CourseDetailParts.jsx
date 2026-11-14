@@ -86,7 +86,7 @@ export function ApplyForm({ course, onSubmitted }) {
 }
 
 /* ============================================================================
- * SMALL PIECES
+//  * SMALL PIECES
  * ========================================================================== */
 export function Block({ title, children }) {
   return (

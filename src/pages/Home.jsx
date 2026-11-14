@@ -1,7 +1,7 @@
 // src/pages/Home.jsx
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import SectionHeading from '../components/SectionHeading.jsx'
+import SectionHeading, { Eyebrow } from '../components/SectionHeading.jsx'
 import CourseCard from '../components/CourseCard.jsx'
 import CourseFeedState from '../components/CourseFeedState.jsx'
 import DoctorCard from '../components/DoctorCard.jsx'
@@ -94,6 +94,8 @@ const logoImages = accreditations.filter((a) => a.kind === 'logo')
  * remove them from the image.
  * ========================================================================== */
 const HERO_BG_SRC = '/hero-full.jpg'
+// 1x1 transparent GIF used as the below-lg <picture> source, so small screens never fetch the hero JPG.
+const BLANK_PIXEL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 
 // "Watch Overview" currently scrolls to the "Why MGA" section.
 // TODO: replace with a video modal / link when the overview video is ready.
@@ -314,30 +316,59 @@ export default function Home() {
         content="Gastroenterology fellowship and course programmes from Medical Global Academy, taught by practising specialists."
       />
 
-      {/* 1 ── Hero: ONE full-width image (heading, badge, features, buttons and stats bar are
-             all drawn inside it). Navbar is NOT part of this file or of the image.
-             - Real <h1> + intro are sr-only (SEO / screen readers).
-             - Two transparent links sit on top of the "Enroll Now" and "Watch Overview"
-               buttons in the image.
-             - On small screens the image keeps a readable minimum width and the hero can be
-               swiped sideways; from lg up it simply fills the width. */}
-      <section aria-label="Gastroenterology courses by Medical Global Academy" className="relative overflow-x-auto bg-[#F4FBFA] lg:overflow-visible">
-        <h1 className="sr-only">Step into the World of Gastroenterology</h1>
-        <p className="sr-only">
-          Enhance your knowledge, sharpen your skills, and build confidence with expert-led courses in
-          Gastroenterology. Expert faculty, interactive learning and certification provided.
-        </p>
+      {/* 1 ── Hero. Two presentations of ONE set of content; navbar is not part of it.
+             - Below lg: a real text hero (badge, h1, intro, buttons) on the soft teal base.
+             - lg and up: ONE full-width image (heading, badge, features, buttons and stats bar
+               are drawn inside it) with transparent links over the drawn "Enroll Now" and
+               "Watch Overview" buttons.
+             - The single <h1> + intro are shared: visible below lg, `lg:sr-only` from lg up
+               (where the image carries them visually), so there is only ever one h1 and the
+               SEO text is in the page at every width. */}
+      <section aria-label="Gastroenterology courses by Medical Global Academy" className="relative isolate overflow-hidden bg-[#F4FBFA]">
+        {/* Soft teal glows for the text hero only (the image has its own background). */}
+        <div aria-hidden="true" className="pointer-events-none absolute -top-32 -right-32 -z-10 h-80 w-80 rounded-full bg-primary-light/15 blur-3xl lg:hidden" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-40 -left-32 -z-10 h-80 w-80 rounded-full bg-support/80 blur-3xl lg:hidden" />
 
-        <div className="relative mx-auto min-w-[860px] max-w-[1920px] lg:min-w-0">
-          <img
-            src={HERO_BG_SRC}
-            alt="Step into the World of Gastroenterology: Medical Global Academy expert-led gastroenterology courses with expert faculty, interactive learning and certification provided"
-            width={1672}
-            height={823}
-            fetchPriority="high"
-            className="block h-auto w-full select-none"
-            draggable={false}
-          />
+        <div className="mx-auto max-w-3xl px-4 pt-12 pb-16 sm:px-5 md:pt-16 md:pb-20 lg:max-w-none lg:p-0">
+          <Eyebrow className="lg:hidden">MGA · Gastroenterology</Eyebrow>
+          <h1 className="mt-5 font-display text-4xl leading-[1.08] font-normal tracking-tight text-text sm:text-5xl md:text-6xl lg:sr-only">
+            Step into the World of <strong className="font-semibold text-primary">Gastroenterology</strong>
+          </h1>
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-text/70 sm:text-lg lg:sr-only">
+            Enhance your knowledge, sharpen your skills, and build confidence with expert-led courses in
+            Gastroenterology. Expert faculty, interactive learning and certification provided.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:hidden">
+            <Link
+              to="/courses"
+              className={`inline-flex h-12 items-center justify-center rounded-xl bg-primary px-7 font-semibold text-white shadow-soft transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-soft-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${focusRing}`}
+            >
+              Enroll Now
+            </Link>
+            <a
+              href={HERO_OVERVIEW_HREF}
+              className={`inline-flex h-12 items-center justify-center rounded-xl bg-white px-6 font-semibold text-secondary shadow-soft ring-1 ring-secondary/20 transition duration-300 ease-out hover:-translate-y-0.5 hover:shadow-soft-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${focusRing}`}
+            >
+              Watch Overview
+            </a>
+          </div>
+        </div>
+
+        <div className="relative mx-auto hidden max-w-[1920px] lg:block">
+          {/* <picture> + a 1px placeholder source below lg stops phones downloading the large
+              hero JPG they never show. From lg up the browser uses the <img> exactly as before. */}
+          <picture>
+            <source media="(max-width: 1023.98px)" srcSet={BLANK_PIXEL} />
+            <img
+              src={HERO_BG_SRC}
+              alt="Step into the World of Gastroenterology: Medical Global Academy expert-led gastroenterology courses with expert faculty, interactive learning and certification provided"
+              width={1672}
+              height={823}
+              fetchPriority="high"
+              className="block h-auto w-full select-none"
+              draggable={false}
+            />
+          </picture>
 
           {/* Transparent hit-areas over the buttons drawn in the image */}
           <Link

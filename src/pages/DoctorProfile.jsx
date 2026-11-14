@@ -1,4 +1,5 @@
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import Breadcrumb from '../components/Breadcrumb.jsx'
 import CTASection from '../components/CTASection.jsx'
 import Placeholder from '../components/Placeholder.jsx'
 import { getDoctorById } from '../data/doctors.js'
@@ -18,9 +19,7 @@ export default function DoctorProfile() {
 
       <section className="bg-support/60">
         <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-5 lg:px-6">
-          <Link to="/doctors" className="text-sm font-medium text-primary hover:text-primary-dark">
-            <span aria-hidden="true">←</span> All faculty
-          </Link>
+          <Breadcrumb items={[{ label: 'Doctors', to: '/doctors' }, { label: name }]} />
         </div>
       </section>
 

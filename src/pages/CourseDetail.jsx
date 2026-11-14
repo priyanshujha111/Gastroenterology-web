@@ -1,6 +1,7 @@
 // src/pages/CourseDetail.jsx
 import { useId, useState } from 'react'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
+import Breadcrumb from '../components/Breadcrumb.jsx'
 import CourseFeedState from '../components/CourseFeedState.jsx'
 import CTASection from '../components/CTASection.jsx'
 import CourseImage from '../components/CourseImage.jsx'
@@ -115,17 +116,7 @@ function CourseDetailView({ course }) {
 
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-5 lg:grid-cols-[7fr_5fr] lg:gap-14 lg:px-6 lg:py-16">
           <div>
-            <nav aria-label="Breadcrumb" className="text-sm text-white/70">
-              <ol className="flex flex-wrap items-center gap-2">
-                <li>
-                  <Link to="/" className={`rounded hover:text-white ${onDarkFocusRing}`}>Home</Link>
-                </li>
-                <li aria-hidden="true">/</li>
-                <li>
-                  <Link to="/courses" className={`rounded hover:text-white ${onDarkFocusRing}`}>Courses</Link>
-                </li>
-              </ol>
-            </nav>
+            <Breadcrumb tone="dark" items={[{ label: 'Courses', to: '/courses' }, { label: course.name }]} />
 
             <div className="mt-5 flex flex-wrap gap-2">
               {course.type && (

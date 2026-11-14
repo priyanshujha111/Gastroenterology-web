@@ -32,6 +32,21 @@ export const specialties = [
   'Obstetrics & Gynecology',
 ]
 
+// DECORATIVE ONLY: one simple stroke icon per specialty for the "Gastroenterology and More" chips.
+// Keyed by the exact `specialties` label; About.jsx falls back to the stethoscope for a missing key.
+export const specialtyIcons = {
+  Gastroenterology: 'M9 3v4.5c0 1.6-2 2.7-2 5.5a6 6 0 006 6h1.5a4.5 4.5 0 000-9H13a2 2 0 01-2-2V3',
+  Cardiology: 'M12 20s-7-4.4-7-9.5A4 4 0 0112 8a4 4 0 017 2.5C19 15.6 12 20 12 20z',
+  Medicine: 'M6 3v6a4 4 0 008 0V3 M10 13v3a5 5 0 0010 0v-2 M20 14a2 2 0 100-4 2 2 0 000 4z',
+  Oncology: 'M8.5 21l6.2-10.5a3.6 3.6 0 10-5.4 0L15.5 21',
+  Nephrology: 'M15 3.5c-3 0-5 2.6-5 5.2 0 1.4 1 2.3 1 3.3s-1 1.9-1 3.3c0 2.6 2 5.2 5 5.2s5-3.6 5-8.5-2-8.5-5-8.5z M11 12H5',
+  Neurology:
+    'M12 5a3 3 0 00-5.8-1A3 3 0 004 8a3 3 0 000 5 3 3 0 002 4.5A3 3 0 0012 19z M12 5a3 3 0 015.8-1A3 3 0 0120 8a3 3 0 010 5 3 3 0 01-2 4.5A3 3 0 0112 19z M12 5v14',
+  Orthopedics:
+    'M6.5 4a2 2 0 00-2.5 2.5A2 2 0 004 9.5a2 2 0 002.8.3l6.4 6.4a2 2 0 00.3 2.8 2 2 0 003 0 2 2 0 002.5-2.5 2 2 0 000-3 2 2 0 00-2.8-.3L9.8 6.8a2 2 0 00-.3-2.8 2 2 0 00-3 0z',
+  'Obstetrics & Gynecology': 'M12 14a5 5 0 100-10 5 5 0 000 10z M12 14v7 M9 18h6',
+}
+
 // COMPANY-WIDE: hero "What we offer" tiles, with MGA-wide programme counts.
 // badge is optional (shown as a small pill next to the title).
 export const offerings = [

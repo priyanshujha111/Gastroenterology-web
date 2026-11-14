@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Breadcrumb from '../components/Breadcrumb.jsx'
 import CourseFeedState from '../components/CourseFeedState.jsx'
 import CTASection from '../components/CTASection.jsx'
 import CourseImage from '../components/CourseImage.jsx'
@@ -26,15 +27,7 @@ export default function Courses() {
       <section className="relative isolate overflow-hidden bg-linear-to-br from-[#0B1F3A] via-[#0C2A44] to-[#0A3B47] text-white">
         <div aria-hidden="true" className="pointer-events-none absolute -top-32 -right-24 -z-10 h-96 w-96 rounded-full bg-[#14B8A6]/25 blur-3xl" />
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-5 lg:px-6 lg:py-20">
-          <nav aria-label="Breadcrumb" className="text-sm text-white/70">
-            <ol className="flex items-center gap-2">
-              <li>
-                <Link to="/" className="rounded hover:text-white focus-visible:outline-2 focus-visible:outline-white">Home</Link>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li aria-current="page">Courses</li>
-            </ol>
-          </nav>
+          <Breadcrumb tone="dark" items={[{ label: 'Courses' }]} />
           <h1 className="mt-5 font-display text-3xl leading-tight font-medium sm:text-4xl lg:text-5xl">
             Gastroenterology programmes for doctors
           </h1>
