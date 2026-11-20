@@ -200,8 +200,10 @@ export default function About() {
               </span>
               <p className="text-lg leading-relaxed text-text md:text-xl">
                 Medical Global Academy (MGA) is an online medical education platform designed for practising doctors who
-                want to continue learning while managing their professional responsibilities. Serving doctors since 2020,
-                every programme is <strong className="font-semibold text-primary">CPD &amp; ACTD accredited</strong>.
+                want to continue learning while managing their professional responsibilities. Active since 2020, MGA
+                offers professional courses and fellowships for post-MBBS doctors, helping them upskill and advance
+                their careers. Every programme is{' '}
+                <strong className="font-semibold text-primary">CPD &amp; ACTD accredited</strong>.
               </p>
             </Reveal>
           </div>

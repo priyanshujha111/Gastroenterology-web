@@ -40,6 +40,10 @@ export default function Courses() {
       {/* Listing */}
       <section className="bg-linear-to-b from-[#F4FBFA] via-white to-white">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-5 lg:px-6 lg:py-20">
+          <p className="mb-8 max-w-3xl border-l-2 border-primary/30 pl-3 text-xs leading-relaxed text-pretty text-text/60">
+            Please Note: This is not a 2-year Government PG Diploma program. The course is a professional
+            upskilling/certification 1-Year program designed for eligible medical professionals.
+          </p>
           {status !== 'ready' ? (
             <CourseFeedState status={status} error={error} onRetry={retry} />
           ) : (

@@ -52,6 +52,7 @@ const linkGroups = [
       { to: '/about', label: 'About' },
       { to: '/courses', label: 'Courses' },
       { to: '/doctors', label: 'Doctors' },
+      { href: 'https://medicalglobalacademy.com/courses', label: 'MGA All Courses' },
     ],
   },
   {
@@ -89,7 +90,12 @@ const focusRing =
 
 const linkClass = `${focusRing} group inline-flex items-center gap-1.5 text-sm text-white/70 transition-all duration-200 hover:translate-x-0.5 hover:text-[#5EEAD4] motion-reduce:transition-none motion-reduce:hover:translate-x-0`
 
-const headingClass = 'mb-6 font-display text-sm font-semibold tracking-wide text-white'
+// Small teal pill for the external "MGA All Courses" link, quieter than the main page buttons.
+// It has its own focus ring so the footer's `rounded` doesn't override `rounded-full`.
+const ctaPillClass =
+  'inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-[#5EEAD4]/40 bg-[#14B8A6]/10 px-3.5 py-1.5 text-sm font-medium text-[#5EEAD4] transition-colors duration-200 hover:border-[#5EEAD4] hover:bg-[#14B8A6]/20 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5EEAD4] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1F3A] motion-reduce:transition-none'
+
+const headingClass ='mb-6 font-display text-sm font-semibold tracking-wide text-white'
 
 const iconProps = {
   viewBox: '0 0 24 24',
@@ -115,6 +121,15 @@ function PhoneIcon() {
   return (
     <svg {...iconProps} className="h-4 w-4">
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  )
+}
+
+function ExternalIcon() {
+  return (
+    <svg {...iconProps} className="h-3.5 w-3.5">
+      <path d="M7 17 17 7" />
+      <path d="M8 7h9v9" />
     </svg>
   )
 }
@@ -267,21 +282,37 @@ export default function Footer() {
             <ul className="grid gap-3.5">
               {group.links.map((l) => (
                 <li key={l.label}>
-                  <Link
-                    to={l.to}
-                    className={
-                      l.highlight
-                        ? `${focusRing} text-sm font-medium text-amber-400 transition-colors hover:text-amber-300 motion-reduce:transition-none`
-                        : linkClass
-                    }
-                  >
-                    {l.label}
-                  </Link>
+                  {l.href ? (
+                    <a href={l.href} target="_blank" rel="noopener noreferrer" className={`${ctaPillClass} mt-1`}>
+                      {l.label}
+                      <ExternalIcon />
+                      <span className="sr-only">(opens in a new tab)</span>
+                    </a>
+                  ) : (
+                    <Link
+                      to={l.to}
+                      className={
+                        l.highlight
+                          ? `${focusRing} text-sm font-medium text-amber-400 transition-colors hover:text-amber-300 motion-reduce:transition-none`
+                          : linkClass
+                      }
+                    >
+                      {l.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
           </nav>
         ))}
+      </div>
+
+      {/* Disclaimer: fine print, separated from the link columns by a hairline */}
+      <div className="mx-auto max-w-7xl px-5 pb-8 sm:px-7 lg:px-6">
+        <p className="border-t border-white/10 pt-6 text-xs leading-relaxed text-pretty text-white/55">
+          Please Note: This is not a 2-year Government PG Diploma program. The course is a professional
+          upskilling/certification 1-Year program designed for eligible medical professionals.
+        </p>
       </div>
 
       {/* Bottom bar: centered copyright */}

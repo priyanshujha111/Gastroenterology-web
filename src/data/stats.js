@@ -21,7 +21,7 @@ export const stats = [
     icon: 'M12 3L2 8l10 5 10-5-10-5z M6 10.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-5.5',
   },
   {
-    label: 'Years Experience',
+    label: 'Years Combined Faculty Experience',
     value: '25',
     suffix: '+',
     // Calendar
